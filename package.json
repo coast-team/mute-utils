@@ -1,0 +1,15 @@
+{
+  "name": "mute-utils",
+  "version": "0.0.2",
+  "description": "Helper to manipulate data structures provided by mute-structs",
+  "main": "utils.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "crdt",
+    "helper"
+  ],
+  "author": "Matthieu Nicolas",
+  "license": "GPL"
+}
