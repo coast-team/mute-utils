@@ -117,5 +117,11 @@ module.exports = {
 	        }
 	    }
 	    return(n);
+	},
+	// MongoDB can't store keys containing dots so have to replace it
+	replaceDots: function (str) {
+		var find = '\\.';
+		var re = new RegExp(find, 'g');
+		return str.replace(re, 'U+FF0E');
 	}
 };

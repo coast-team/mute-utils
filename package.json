@@ -1,11 +1,15 @@
 {
   "name": "mute-utils",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Helper to manipulate data structures provided by mute-structs",
   "main": "utils.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MatthieuNICOLAS/mute-utils"
+  },  
   "keywords": [
     "crdt",
     "helper"
