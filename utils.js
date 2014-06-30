@@ -83,7 +83,7 @@ module.exports = {
 			if(typeof arr[i] === "number" || typeof arr[i] === "string") {
 				copy.push(arr[i]);
 			}
-			else if(arr[i].copy !== null && arr[i].copy !== undefined) {
+			else if(arr[i] !== null && arr[i] !== undefined && arr[i].copy !== null && arr[i].copy !== undefined) {
 				copy.push(arr[i].copy());
 			}
 			else {

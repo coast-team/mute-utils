@@ -1,6 +1,6 @@
 {
   "name": "mute-utils",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Helper to manipulate data structures provided by mute-structs",
   "main": "utils.js",
   "scripts": {
