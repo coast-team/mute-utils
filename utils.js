@@ -35,12 +35,6 @@ module.exports = {
 	del: function (s, begin, end) {
 		return s.slice(0, begin) + s.slice(end + 1);
 	},
-	unset: function (arr, elt) {
-		var index = arr.indexOf(elt);
-	    if(index > -1) {
-	        arr.splice(index, 1);
-	    }
-	},
 	pushAll: function(arr, elts) {
 		var i;
 		for(i=0; i<elts.length; i++) {
