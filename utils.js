@@ -29,17 +29,11 @@ module.exports = {
 		RIGHT: 1
 	},
 	insert: function (s, index, string) {
-		if (index > 0) {
-			return s.substring(0, index) + string + s.substring(index, s.length);
-		}
-		return string + s;
+		var positiveIndex = Math.max(0, index);
+		return s.substring(0, positiveIndex) + string + s.substring(positiveIndex);
 	},
 	del: function (s, begin, end) {
-	    var str = '';
-	    if(begin !== 0) {
-	        str = s.substring(0, begin);
-	    }
-		return str + s.substring(end + 1, s.length);
+		return s.slice(0, begin) + s.slice(end + 1);
 	},
 	unset: function (arr, elt) {
 		var index = arr.indexOf(elt);
