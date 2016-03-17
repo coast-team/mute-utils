@@ -29,19 +29,19 @@ module.exports = {
 		RIGHT: 1
 	},
 	insert: function (s, index, string) {
-		if (index > 0) {
+		if (index > 0) {
 			return s.substring(0, index) + string + s.substring(index, s.length);
 		}
 		return string + s;
 	},
 	del: function (s, begin, end) {
 	    var str = '';
-	    if(begin !== 0) {
+	    if(begin !== 0) {
 	        str = s.substring(0, begin);
 	    }
 		return str + s.substring(end + 1, s.length);
 	},
-	unset: function (arr, elt) {
+	unset: function (arr, elt) {
 		var index = arr.indexOf(elt);
 	    if(index > -1) {
 	        arr.splice(index, 1);
