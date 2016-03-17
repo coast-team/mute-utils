@@ -56,7 +56,7 @@ module.exports = {
 	iterator: function(arr) {
 		var it = {
 	    	index: 0,
-	    	items: arr, 
+	    	items: arr,
 	    	first: function() {
 	        	this.reset();
 	        	return this.next();
@@ -97,21 +97,21 @@ module.exports = {
 	    var pos;
 	    var step;
 
-	    string += ""; 
+	    string += "";
 	    subString += "";
 	    if(subString.length<=0) {
 	    	return string.length+1;
-	    } 
+	    }
 	    n = 0;
 	    pos = 0;
 	    step = (allowOverlapping) ? (1) : (subString.length);
 
 	    while(true) {
 	        pos = string.indexOf(subString,pos);
-	        if(pos>=0) { 
-	        	n++; 
-	        	pos += step; 
-	        } 
+	        if(pos>=0) {
+	        	n++;
+	        	pos += step;
+	        }
 	        else {
 	        	break;
 	        }
