@@ -51,7 +51,7 @@ module.exports = {
 	},
 	insert: function (s, index, string) {
 		var positiveIndex = Math.max(0, index);
-		return s.substring(0, positiveIndex) + string + s.substring(positiveIndex);
+		return s.slice(0, positiveIndex) + string + s.slice(positiveIndex);
 	},
 	del: function (s, begin, end) {
 		return s.slice(0, begin) + s.slice(end + 1);
