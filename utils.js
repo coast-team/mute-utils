@@ -36,10 +36,7 @@ module.exports = {
 		return s.slice(0, begin) + s.slice(end + 1);
 	},
 	pushAll: function(arr, elts) {
-		var i;
-		for(i=0; i<elts.length; i++) {
-			arr.push(elts[i]);
-		}
+		arr.push.apply(arr, elts);
 	},
 	iterator: function(arr) {
 		var it = {
