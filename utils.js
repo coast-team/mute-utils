@@ -66,20 +66,25 @@ module.exports = {
 		return arr[arr.length-1];
 	},
 	copy: function (arr) {
-		var copy = [];
-		var i;
-		for(i=0; i<arr.length; i++) {
-			if(typeof arr[i] === "number" || typeof arr[i] === "string") {
-				copy.push(arr[i]);
-			}
-			else if(arr[i] !== null && arr[i] !== undefined && arr[i].copy !== null && arr[i].copy !== undefined) {
-				copy.push(arr[i].copy());
+		var result = [];
+		var item;
+
+		var i = arr.length;
+		while(i > 0) {
+			i--;
+
+			item = arr[i];
+			if (item instanceof Object && "copy" in item &&
+				item.copy instanceof Function && item.copy.length === 0) {
+
+				result[i] = item.copy();
 			}
 			else {
-				copy.push(arr[i]);
+				result[i] = item;
 			}
 		}
-		return copy;
+
+		return result;
 	},
 	occurrences: function (string, subString, allowOverlapping) {
 	    var n;
