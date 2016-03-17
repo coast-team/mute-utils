@@ -86,31 +86,17 @@ module.exports = {
 
 		return result;
 	},
-	occurrences: function (string, subString, allowOverlapping) {
-	    var n;
-	    var pos;
-	    var step;
+	occurrences: function (string, substring) {
+		var result = 0;
+		var substringLength = substring.length;
 
-	    string += "";
-	    subString += "";
-	    if(subString.length<=0) {
-	    	return string.length+1;
-	    }
-	    n = 0;
-	    pos = 0;
-	    step = (allowOverlapping) ? (1) : (subString.length);
+		var pos = string.indexOf(substring);
+		while (pos !== -1) {
+			result++;
+			pos = string.indexOf(substring, pos + substringLength);
+		}
 
-	    while(true) {
-	        pos = string.indexOf(subString,pos);
-	        if(pos>=0) {
-	        	n++;
-	        	pos += step;
-	        }
-	        else {
-	        	break;
-	        }
-	    }
-	    return(n);
+		return result;
 	},
 	// MongoDB can't store keys containing dots so have to replace it
 	replaceDots: function (str) {
