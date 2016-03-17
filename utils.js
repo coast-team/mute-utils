@@ -15,6 +15,27 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+var ArrayIterator = function (aItems) {
+	this.items = aItems;
+	this.index = 0;
+};
+ArrayIterator.prototype = {
+	constructor: ArrayIterator,
+	first: function() {
+		this.reset();
+		return this.next();
+	},
+	next: function() {
+		return this.items[this.index++];
+	},
+	hasNext: function() {
+		return this.index < this.items.length;
+	},
+	reset: function() {
+		this.index = 0;
+	}
+};
+
 module.exports = {
 	Result: {
 		B1AfterB2: 'B1AfterB2',
@@ -39,24 +60,7 @@ module.exports = {
 		arr.push.apply(arr, elts);
 	},
 	iterator: function(arr) {
-		var it = {
-	    	index: 0,
-	    	items: arr,
-	    	first: function() {
-	        	this.reset();
-	        	return this.next();
-		    },
-		    next: function() {
-		        return this.items[this.index++];
-		    },
-		    hasNext: function() {
-		        return this.index < this.items.length;
-		    },
-		    reset: function() {
-		        this.index = 0;
-		    },
-	    };
-	    return it;
+	    return new ArrayIterator(arr);
 	},
 	getLast: function (arr) {
 		return arr[arr.length-1];
