@@ -63,7 +63,7 @@ module.exports = {
 	    return new ArrayIterator(arr);
 	},
 	getLast: function (arr) {
-		return arr[arr.length-1];
+		return arr[arr.length - 1];
 	},
 	copy: function (arr) {
 		var result = [];
