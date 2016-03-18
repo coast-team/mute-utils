@@ -1,19 +1,41 @@
 /*
- *	Copyright 2014 Matthieu Nicolas
+ * Copyright 2014-2015 Matthieu Nicolas
+ * Copyright 2016 Matthieu Nicolas, Victorien Elvinger
  *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- * 	(at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+var ArrayIterator = function (aItems) {
+	this.items = aItems;
+	this.index = 0;
+};
+ArrayIterator.prototype = {
+	constructor: ArrayIterator,
+	first: function() {
+		this.reset();
+		return this.next();
+	},
+	next: function() {
+		return this.items[this.index++];
+	},
+	hasNext: function() {
+		return this.index < this.items.length;
+	},
+	reset: function() {
+		this.index = 0;
+	}
+};
 
 module.exports = {
 	Result: {
@@ -29,99 +51,56 @@ module.exports = {
 		RIGHT: 1
 	},
 	insert: function (s, index, string) {
-		if (index > 0) {
-			return s.substring(0, index) + string + s.substring(index, s.length);
-		}
-		return string + s;
+		var positiveIndex = Math.max(0, index);
+		return s.slice(0, positiveIndex) + string + s.slice(positiveIndex);
 	},
 	del: function (s, begin, end) {
-	    var str = '';
-	    if(begin !== 0) {
-	        str = s.substring(0, begin);
-	    }
-		return str + s.substring(end + 1, s.length);
-	},
-	unset: function (arr, elt) {
-		var index = arr.indexOf(elt);
-	    if(index > -1) {
-	        arr.splice(index, 1);
-	    }
+		return s.slice(0, begin) + s.slice(end + 1);
 	},
 	pushAll: function(arr, elts) {
-		var i;
-		for(i=0; i<elts.length; i++) {
-			arr.push(elts[i]);
-		}
+		arr.push.apply(arr, elts);
 	},
 	iterator: function(arr) {
-		var it = {
-	    	index: 0,
-	    	items: arr, 
-	    	first: function() {
-	        	this.reset();
-	        	return this.next();
-		    },
-		    next: function() {
-		        return this.items[this.index++];
-		    },
-		    hasNext: function() {
-		        return this.index < this.items.length;
-		    },
-		    reset: function() {
-		        this.index = 0;
-		    },
-	    };
-	    return it;
+	    return new ArrayIterator(arr);
 	},
 	getLast: function (arr) {
-		return arr[arr.length-1];
+		return arr[arr.length - 1];
 	},
 	copy: function (arr) {
-		var copy = [];
-		var i;
-		for(i=0; i<arr.length; i++) {
-			if(typeof arr[i] === "number" || typeof arr[i] === "string") {
-				copy.push(arr[i]);
-			}
-			else if(arr[i] !== null && arr[i] !== undefined && arr[i].copy !== null && arr[i].copy !== undefined) {
-				copy.push(arr[i].copy());
+		var result = [];
+		var item;
+
+		var i = arr.length;
+		while(i > 0) {
+			i--;
+
+			item = arr[i];
+			if (item instanceof Object && "copy" in item &&
+				item.copy instanceof Function && item.copy.length === 0) {
+
+				result[i] = item.copy();
 			}
 			else {
-				copy.push(arr[i]);
+				result[i] = item;
 			}
 		}
-		return copy;
+
+		return result;
 	},
-	occurrences: function (string, subString, allowOverlapping) {
-	    var n;
-	    var pos;
-	    var step;
+	occurrences: function (string, substring) {
+		var result = 0;
+		var substringLength = substring.length;
 
-	    string += ""; 
-	    subString += "";
-	    if(subString.length<=0) {
-	    	return string.length+1;
-	    } 
-	    n = 0;
-	    pos = 0;
-	    step = (allowOverlapping) ? (1) : (subString.length);
+		var pos = string.indexOf(substring);
+		while (pos !== -1) {
+			result++;
+			pos = string.indexOf(substring, pos + substringLength);
+		}
 
-	    while(true) {
-	        pos = string.indexOf(subString,pos);
-	        if(pos>=0) { 
-	        	n++; 
-	        	pos += step; 
-	        } 
-	        else {
-	        	break;
-	        }
-	    }
-	    return(n);
+		return result;
 	},
 	// MongoDB can't store keys containing dots so have to replace it
 	replaceDots: function (str) {
-		var find = '\\.';
-		var re = new RegExp(find, 'g');
-		return str.replace(re, 'U+FF0E');
+		return str.replace(/\./g, 'U+FF0E');
 	}
 };
